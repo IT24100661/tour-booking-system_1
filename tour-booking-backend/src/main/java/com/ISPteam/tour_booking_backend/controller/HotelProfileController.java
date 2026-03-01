@@ -18,8 +18,10 @@ public class HotelProfileController {
     }
 
     @PostMapping("/hotels/profile")
-    public ResponseEntity<HotelProfile> createHotelProfile(JwtAuthenticationToken auth, @RequestBody HotelProfileRequest req) {
-        Long uid = auth.getToken().getClaim("uid");
+    public ResponseEntity<HotelProfile> createHotelProfile(JwtAuthenticationToken auth,
+                                                           @RequestBody HotelProfileRequest req) {
+        Number uidNum = auth.getToken().getClaim("uid");
+        Long uid = uidNum == null ? null : uidNum.longValue();
         return ResponseEntity.ok(profiles.createHotelProfile(uid, req));
     }
 
@@ -29,12 +31,14 @@ public class HotelProfileController {
     }
 
     @PatchMapping("/hotels/{id}/profile")
-    public ResponseEntity<HotelProfile> updateHotelProfile(@PathVariable Long id, @RequestBody HotelProfileRequest req) {
+    public ResponseEntity<HotelProfile> updateHotelProfile(@PathVariable Long id,
+                                                           @RequestBody HotelProfileRequest req) {
         return ResponseEntity.ok(profiles.updateHotelProfile(id, req));
     }
 
     @PutMapping("/hotels/{id}/profile")
-    public ResponseEntity<HotelProfile> replaceHotelProfile(@PathVariable Long id, @RequestBody HotelProfileRequest req) {
+    public ResponseEntity<HotelProfile> replaceHotelProfile(@PathVariable Long id,
+                                                            @RequestBody HotelProfileRequest req) {
         return ResponseEntity.ok(profiles.updateHotelProfile(id, req));
     }
 }
