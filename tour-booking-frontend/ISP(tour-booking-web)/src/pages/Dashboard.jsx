@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth } from '../auth/    AuthContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 
 export default function Dashboard() {
     const { user, token } = useAuth()
