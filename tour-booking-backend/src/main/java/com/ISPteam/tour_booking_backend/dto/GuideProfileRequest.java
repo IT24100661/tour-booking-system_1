@@ -1,10 +1,11 @@
 package com.ISPteam.tour_booking_backend.dto;
 
-import java.math.BigDecimal;
-
 public class GuideProfileRequest {
-    public String experience;
-    public String languages; // "English,Sinhala"
-    public BigDecimal price;
+    public String name;
+    public String location;
+    public String languages;
+    public Double ratingAvg;
+    public Integer ratingCount;
+    public Double price;   // keep Double to match entity
     public String bio;
 }
