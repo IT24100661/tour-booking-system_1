@@ -1,18 +1,14 @@
-import axios from 'axios'
-import { getToken } from '../auth/    authStorage.js'
-
-const baseURL = import.meta.env.VITE_API_BASE_URL || ''
+import axios from "axios";
 
 export const api = axios.create({
-    baseURL
-})
+    baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
+});
 
-// Attach Authorization token automatically
 api.interceptors.request.use((config) => {
-    const token = getToken()
+    const token = localStorage.getItem("tb_token");
     if (token) {
-        config.headers = config.headers || {}
-        config.headers.Authorization = `Bearer ${token}`
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
     }
-    return config
-})
+    return config;
+});

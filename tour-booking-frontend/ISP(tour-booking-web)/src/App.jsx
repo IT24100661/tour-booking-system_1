@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from './/auth/    AuthContext.jsx'
+import { useAuth } from './/auth/AuthContext.jsx'
 import { apiLogout } from './api/e1'
 
 export default function App() {
@@ -32,6 +32,11 @@ export default function App() {
                     {token && user?.id && <Link to={`/users/${user.id}`}>My Profile</Link>}
                     {token && <Link to="/guides/profile">Guide Profile</Link>}
                     {token && <Link to="/hotels/profile">Hotel Profile</Link>}
+                    <Link to="/guides">Guides</Link>
+                    <Link to="/guide/availability">My Availability</Link>
+                    <Link to="/guide/requests">Requests</Link>
+                    <Link to="/my-bookings/guides">My Guide Bookings</Link>
+
                     {token && (
                         <button className="linkBtn" onClick={handleLogout}>
                             Logout
