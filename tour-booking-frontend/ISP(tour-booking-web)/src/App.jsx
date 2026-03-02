@@ -61,6 +61,12 @@ export default function App() {
                     {token && <Link to="/my-favorites/places">My Favorite Places</Link>}
                     {token && <Link to="/admin/places/new">Admin: Add Place</Link>}
 
+                    {/* E5 Protected */}
+                    {token && <Link to="/bookings/new">New Booking</Link>}
+                    {token && <Link to="/my-bookings">My Bookings</Link>}
+                    {token && <Link to="/my-payments">My Payments</Link>}
+                    {token && <Link to="/admin/payments">Admin: Payments</Link>}
+
                     {token && (
                         <button className="linkBtn" onClick={handleLogout}>
                             Logout
