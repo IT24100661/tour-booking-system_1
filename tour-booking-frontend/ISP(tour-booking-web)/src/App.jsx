@@ -37,6 +37,9 @@ export default function App() {
                     {/* E3 Public */}
                     <Link to="/hotels">Hotels</Link>
 
+                    {/* E4 Public */}
+                    <Link to="/places">Places</Link>
+
                     {/* Protected */}
                     {token && <Link to="/dashboard">Dashboard</Link>}
                     {token && user?.id && <Link to={`/users/${user.id}`}>My Profile</Link>}
@@ -53,6 +56,10 @@ export default function App() {
                     {/* E3 Protected */}
                     {token && <Link to="/owner/hotels/new">Create Hotel</Link>}
                     {token && <Link to="/my-reservations/hotels">My Reservations</Link>}
+
+                    {/* E4 Protected */}
+                    {token && <Link to="/my-favorites/places">My Favorite Places</Link>}
+                    {token && <Link to="/admin/places/new">Admin: Add Place</Link>}
 
                     {token && (
                         <button className="linkBtn" onClick={handleLogout}>

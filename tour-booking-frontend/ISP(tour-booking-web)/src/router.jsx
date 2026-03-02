@@ -19,12 +19,19 @@ import GuideAvailability from "./pages/GuideAvailability.jsx";
 import GuideRequests from "./pages/GuideRequests.jsx";
 import MyGuideBookings from "./pages/MyGuideBookings.jsx";
 
-// E3 pages (ADD THESE FILES)
+// E3 pages
 import Hotels from "./pages/Hotels.jsx";
 import HotelDetail from "./pages/HotelDetail.jsx";
 import HotelCreate from "./pages/HotelCreate.jsx";
 import HotelManage from "./pages/HotelManage.jsx";
 import MyHotelReservations from "./pages/MyHotelReservations.jsx";
+
+// E4 pages (ADD THESE FILES)
+import Places from "./pages/Places.jsx";
+import PlaceDetail from "./pages/PlaceDetail.jsx";
+import AdminPlaceCreate from "./pages/AdminPlaceCreate.jsx";
+import AdminPlaceEdit from "./pages/AdminPlaceEdit.jsx";
+import MyFavoritePlaces from "./pages/MyFavoritePlaces.jsx";
 
 import RequireAuth from "./auth/RequireAuth.jsx";
 
@@ -48,6 +55,10 @@ export const router = createBrowserRouter([
             { path: "hotels", element: <Hotels /> },
             { path: "hotels/:id", element: <HotelDetail /> },
 
+            // E4 public
+            { path: "places", element: <Places /> },
+            { path: "places/:id", element: <PlaceDetail /> },
+
             // Protected (common)
             { path: "dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
             { path: "users/:id", element: <RequireAuth><UserProfile /></RequireAuth> },
@@ -65,6 +76,13 @@ export const router = createBrowserRouter([
 
             // E3 protected (tourist)
             { path: "my-reservations/hotels", element: <RequireAuth><MyHotelReservations /></RequireAuth> },
+
+            // E4 protected (tourist)
+            { path: "my-favorites/places", element: <RequireAuth><MyFavoritePlaces /></RequireAuth> },
+
+            // E4 protected (admin)
+            { path: "admin/places/new", element: <RequireAuth><AdminPlaceCreate /></RequireAuth> },
+            { path: "admin/places/:id/edit", element: <RequireAuth><AdminPlaceEdit /></RequireAuth> },
         ],
     },
 ]);
