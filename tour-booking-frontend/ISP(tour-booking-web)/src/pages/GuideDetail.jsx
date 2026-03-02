@@ -7,6 +7,7 @@ import {
     apiCreateGuideBooking,
 } from "../api/e2";
 import { useAuth } from "../auth/AuthContext.jsx";
+import ReviewsBlock from "../components/ReviewsBlock.jsx";
 
 export default function GuideDetail() {
     const { id } = useParams();
@@ -20,10 +21,12 @@ export default function GuideDetail() {
     const [msg, setMsg] = useState("");
 
     const load = async () => {
-        setErr(""); setMsg("");
+        setErr("");
+        setMsg("");
         try {
             const g = await apiGetGuide(guideId);
             setGuide(g);
+
             const s = await apiGetAvailability(guideId);
             setSlots(Array.isArray(s) ? s : (s.items || []));
         } catch (e) {
@@ -31,12 +34,16 @@ export default function GuideDetail() {
         }
     };
 
-    useEffect(() => { load(); }, [guideId]);
+    useEffect(() => {
+        if (!Number.isFinite(guideId)) return;
+        load();
+    }, [guideId]);
 
     const touristId = user?.id;
 
     const requestBooking = async () => {
-        setErr(""); setMsg("");
+        setErr("");
+        setMsg("");
         if (!touristId) return setErr("Login as TOURIST first");
         if (!selectedSlotId) return setErr("Select an availability slot first");
 
@@ -53,7 +60,8 @@ export default function GuideDetail() {
     };
 
     const bookDirect = async () => {
-        setErr(""); setMsg("");
+        setErr("");
+        setMsg("");
         if (!touristId) return setErr("Login as TOURIST first");
         if (!selectedSlotId) return setErr("Select an availability slot first");
 
@@ -94,6 +102,9 @@ export default function GuideDetail() {
                 <button onClick={requestBooking}>Send request</button>
                 <button onClick={bookDirect}>Book direct</button>
             </div>
+
+            {/* E6 Reviews */}
+            <ReviewsBlock targetType="GUIDE" targetId={guideId} />
         </div>
     );
 }
