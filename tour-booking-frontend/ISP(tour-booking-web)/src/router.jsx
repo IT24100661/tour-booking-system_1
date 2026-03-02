@@ -12,11 +12,19 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import GuideProfile from "./pages/GuideProfile.jsx";
 import HotelProfile from "./pages/HotelProfile.jsx";
 
+// E2 pages
 import Guides from "./pages/Guides.jsx";
 import GuideDetail from "./pages/GuideDetail.jsx";
 import GuideAvailability from "./pages/GuideAvailability.jsx";
 import GuideRequests from "./pages/GuideRequests.jsx";
 import MyGuideBookings from "./pages/MyGuideBookings.jsx";
+
+// E3 pages (ADD THESE FILES)
+import Hotels from "./pages/Hotels.jsx";
+import HotelDetail from "./pages/HotelDetail.jsx";
+import HotelCreate from "./pages/HotelCreate.jsx";
+import HotelManage from "./pages/HotelManage.jsx";
+import MyHotelReservations from "./pages/MyHotelReservations.jsx";
 
 import RequireAuth from "./auth/RequireAuth.jsx";
 
@@ -25,6 +33,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <App />,
         children: [
+            // Public
             { index: true, element: <Home /> },
             { path: "register", element: <Register /> },
             { path: "login", element: <Login /> },
@@ -35,7 +44,11 @@ export const router = createBrowserRouter([
             { path: "guides", element: <Guides /> },
             { path: "guides/:id", element: <GuideDetail /> },
 
-            // Protected
+            // E3 public
+            { path: "hotels", element: <Hotels /> },
+            { path: "hotels/:id", element: <HotelDetail /> },
+
+            // Protected (common)
             { path: "dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
             { path: "users/:id", element: <RequireAuth><UserProfile /></RequireAuth> },
             { path: "guides/profile", element: <RequireAuth><GuideProfile /></RequireAuth> },
@@ -45,6 +58,13 @@ export const router = createBrowserRouter([
             { path: "guide/availability", element: <RequireAuth><GuideAvailability /></RequireAuth> },
             { path: "guide/requests", element: <RequireAuth><GuideRequests /></RequireAuth> },
             { path: "my-bookings/guides", element: <RequireAuth><MyGuideBookings /></RequireAuth> },
+
+            // E3 protected (owner)
+            { path: "owner/hotels/new", element: <RequireAuth><HotelCreate /></RequireAuth> },
+            { path: "owner/hotels/:id/manage", element: <RequireAuth><HotelManage /></RequireAuth> },
+
+            // E3 protected (tourist)
+            { path: "my-reservations/hotels", element: <RequireAuth><MyHotelReservations /></RequireAuth> },
         ],
     },
 ]);
