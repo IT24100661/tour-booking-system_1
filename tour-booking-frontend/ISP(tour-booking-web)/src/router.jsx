@@ -26,12 +26,19 @@ import HotelCreate from "./pages/HotelCreate.jsx";
 import HotelManage from "./pages/HotelManage.jsx";
 import MyHotelReservations from "./pages/MyHotelReservations.jsx";
 
-// E4 pages (ADD THESE FILES)
+// E4 pages
 import Places from "./pages/Places.jsx";
 import PlaceDetail from "./pages/PlaceDetail.jsx";
 import AdminPlaceCreate from "./pages/AdminPlaceCreate.jsx";
 import AdminPlaceEdit from "./pages/AdminPlaceEdit.jsx";
 import MyFavoritePlaces from "./pages/MyFavoritePlaces.jsx";
+
+// E5 pages (ADD THESE FILES)
+import BookingCreate from "./pages/BookingCreate.jsx";
+import BookingDetail from "./pages/BookingDetail.jsx";
+import MyBookings from "./pages/MyBookings.jsx";
+import ProviderPayments from "./pages/ProviderPayments.jsx";
+import AdminPayments from "./pages/AdminPayments.jsx";
 
 import RequireAuth from "./auth/RequireAuth.jsx";
 
@@ -83,6 +90,13 @@ export const router = createBrowserRouter([
             // E4 protected (admin)
             { path: "admin/places/new", element: <RequireAuth><AdminPlaceCreate /></RequireAuth> },
             { path: "admin/places/:id/edit", element: <RequireAuth><AdminPlaceEdit /></RequireAuth> },
+
+            // E5 protected
+            { path: "bookings/new", element: <RequireAuth><BookingCreate /></RequireAuth> },
+            { path: "bookings/:id", element: <RequireAuth><BookingDetail /></RequireAuth> },
+            { path: "my-bookings", element: <RequireAuth><MyBookings /></RequireAuth> },
+            { path: "my-payments", element: <RequireAuth><ProviderPayments /></RequireAuth> },
+            { path: "admin/payments", element: <RequireAuth><AdminPayments /></RequireAuth> },
         ],
     },
 ]);
