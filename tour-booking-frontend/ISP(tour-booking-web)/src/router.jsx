@@ -33,12 +33,15 @@ import AdminPlaceCreate from "./pages/AdminPlaceCreate.jsx";
 import AdminPlaceEdit from "./pages/AdminPlaceEdit.jsx";
 import MyFavoritePlaces from "./pages/MyFavoritePlaces.jsx";
 
-// E5 pages (ADD THESE FILES)
+// E5 pages
 import BookingCreate from "./pages/BookingCreate.jsx";
 import BookingDetail from "./pages/BookingDetail.jsx";
 import MyBookings from "./pages/MyBookings.jsx";
 import ProviderPayments from "./pages/ProviderPayments.jsx";
 import AdminPayments from "./pages/AdminPayments.jsx";
+
+// E6 pages
+import AdminReportedReviews from "./pages/AdminReportedReviews.jsx";
 
 import RequireAuth from "./auth/RequireAuth.jsx";
 
@@ -97,6 +100,9 @@ export const router = createBrowserRouter([
             { path: "my-bookings", element: <RequireAuth><MyBookings /></RequireAuth> },
             { path: "my-payments", element: <RequireAuth><ProviderPayments /></RequireAuth> },
             { path: "admin/payments", element: <RequireAuth><AdminPayments /></RequireAuth> },
+
+            // E6 protected (admin moderation)
+            { path: "admin/reviews/reported", element: <RequireAuth><AdminReportedReviews /></RequireAuth> },
         ],
     },
 ]);
