@@ -92,3 +92,17 @@ export async function apiUpdateHotelProfile(hotelOwnerId, payload, method = 'pat
     const { data } = await fn(`/api/hotels/${hotelOwnerId}/profile`, payload)
     return data
 }
+export async function apiGetGuideDashboard() {
+    const { data } = await api.get('/api/dashboard/guide');
+    return data;
+}
+
+export async function apiGetHotelDashboard() {
+    const { data } = await api.get('/api/dashboard/hotel');
+    return data;
+}
+
+export async function apiGetAdminDashboard() {
+    const { data } = await api.get('/api/dashboard/admin');
+    return data;
+}

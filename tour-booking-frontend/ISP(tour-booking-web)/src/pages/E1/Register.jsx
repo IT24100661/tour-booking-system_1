@@ -1,37 +1,24 @@
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { apiRegisterUser } from '../../api/e1.js'
-import { useNavigate } from 'react-router-dom'
-
-const s = {
-    page: { minHeight: '100vh', background: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' },
-    card: { background: '#fff', borderRadius: '20px', padding: '48px 40px', width: '100%', maxWidth: '460px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)' },
-    logo: { textAlign: 'center', marginBottom: '32px' },
-    logoIcon: { fontSize: '40px', display: 'block', marginBottom: '8px' },
-    logoText: { fontSize: '26px', fontWeight: '800', color: '#1e3a5f' },
-    subtitle: { fontSize: '14px', color: '#64748b', marginTop: '4px' },
-    field: { marginBottom: '16px' },
-    label: { display: 'block', fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '6px' },
-    input: { width: '100%', padding: '12px 16px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '15px', outline: 'none', boxSizing: 'border-box', background: '#f8fafc', color: '#0f172a' },
-    select: { width: '100%', padding: '12px 16px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '15px', outline: 'none', boxSizing: 'border-box', background: '#f8fafc', color: '#0f172a', cursor: 'pointer' },
-    roleGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '6px' },
-    roleBtn: (active) => ({ padding: '10px 8px', border: `2px solid ${active ? '#2563eb' : '#e2e8f0'}`, borderRadius: '10px', background: active ? '#eff6ff' : '#f8fafc', color: active ? '#2563eb' : '#64748b', fontWeight: active ? '700' : '500', fontSize: '13px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s' }),
-    btn: { width: '100%', padding: '14px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '16px', fontWeight: '700', cursor: 'pointer', marginTop: '8px' },
-    btnDisabled: { opacity: 0.6, cursor: 'not-allowed' },
-    error: { background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '12px 16px', borderRadius: '10px', fontSize: '14px', marginBottom: '16px' },
-    ok: { background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#16a34a', padding: '12px 16px', borderRadius: '10px', fontSize: '14px', marginBottom: '16px' },
-    footer: { textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' },
-    link: { color: '#2563eb', fontWeight: '600', textDecoration: 'none' },
-}
+import './E1.css'
 
 const ROLES = [
-    { value: 'TOURIST', label: '🧳 Tourist' },
-    { value: 'GUIDE', label: '🗺️ Guide' },
-    { value: 'HOTEL_OWNER', label: '🏨 Hotel Owner' },
+    { value: 'TOURIST',     emoji: '🧳', label: 'Tourist' },
+    { value: 'GUIDE',       emoji: '🗺️', label: 'Guide' },
+    { value: 'HOTEL_OWNER', emoji: '🏨', label: 'Hotel Owner' },
+    { value: 'ADMIN',       emoji: '🛡️', label: 'Admin' },
 ]
 
 export default function Register() {
     const nav = useNavigate()
-    const [form, setForm] = useState({ name: '', email: '', password: '', role: 'TOURIST', phone: '' })
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        password: '',
+        role: 'TOURIST',
+        phone: ''
+    })
     const [msg, setMsg] = useState(null)
     const [err, setErr] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -54,52 +41,93 @@ export default function Register() {
     }
 
     return (
-        <div style={s.page}>
-            <div style={s.card}>
-                <div style={s.logo}>
-                    <span style={s.logoIcon}>✈️</span>
-                    <div style={s.logoText}>TravelZone</div>
-                    <div style={s.subtitle}>Create your account to get started.</div>
-                </div>
+        <div className="e1-page">
+            <div className="e1-card">
+                <div className="e1-card__icon">🌍</div>
+                <h1 className="e1-card__title">Create account</h1>
+                <p className="e1-card__subtitle">Join TravelZone today</p>
 
-                {err && <div style={s.error}>⚠️ {err}</div>}
-                {msg && <div style={s.ok}>✅ {msg}</div>}
+                {err && <div className="e1-alert e1-alert--error"><span>⚠️</span> {err}</div>}
+                {msg && <div className="e1-alert e1-alert--success"><span>✓</span> {msg}</div>}
 
                 <form onSubmit={submit}>
-                    <div style={s.field}>
-                        <label style={s.label}>Full Name</label>
-                        <input style={s.input} name="name" value={form.name} onChange={onChange} placeholder="John Silva" required />
+                    <div className="e1-field">
+                        <label className="e1-label">Full Name</label>
+                        <input
+                            className="e1-input"
+                            name="name"
+                            placeholder="John Doe"
+                            value={form.name}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
-                    <div style={s.field}>
-                        <label style={s.label}>Email address</label>
-                        <input style={s.input} name="email" type="email" value={form.email} onChange={onChange} placeholder="you@example.com" required />
+
+                    <div className="e1-field">
+                        <label className="e1-label">Email address</label>
+                        <input
+                            className="e1-input"
+                            name="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            value={form.email}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
-                    <div style={s.field}>
-                        <label style={s.label}>Password</label>
-                        <input style={s.input} name="password" type="password" value={form.password} onChange={onChange} placeholder="••••••••" required />
+
+                    <div className="e1-field">
+                        <label className="e1-label">Password</label>
+                        <input
+                            className="e1-input"
+                            name="password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={form.password}
+                            onChange={onChange}
+                            required
+                        />
                     </div>
-                    <div style={s.field}>
-                        <label style={s.label}>I am a...</label>
-                        <div style={s.roleGrid}>
-                            {ROLES.map((r) => (
-                                <button key={r.value} type="button" style={s.roleBtn(form.role === r.value)}
-                                        onClick={() => setForm((f) => ({ ...f, role: r.value }))}>
-                                    {r.label}
-                                </button>
+
+                    <div className="e1-field">
+                        <label className="e1-label">Select Role</label>
+                        <div className="e1-roles">
+                            {ROLES.map(r => (
+                                <div
+                                    key={r.value}
+                                    className={`e1-role-card ${form.role === r.value ? 'e1-role-card--active' : ''}`}
+                                    onClick={() => setForm(f => ({ ...f, role: r.value }))}
+                                >
+                                    <div className="e1-role-card__emoji">{r.emoji}</div>
+                                    <div className="e1-role-card__label">{r.label}</div>
+                                </div>
                             ))}
                         </div>
                     </div>
-                    <div style={s.field}>
-                        <label style={s.label}>Phone (optional)</label>
-                        <input style={s.input} name="phone" value={form.phone} onChange={onChange} placeholder="+94 77 123 4567" />
+
+                    <div className="e1-field">
+                        <label className="e1-label">
+                            Phone <span style={{ color: '#94a3b8', fontWeight: 400, textTransform: 'none' }}>(optional)</span>
+                        </label>
+                        <input
+                            className="e1-input"
+                            name="phone"
+                            placeholder="+94 77 123 4567"
+                            value={form.phone}
+                            onChange={onChange}
+                        />
                     </div>
-                    <button style={{ ...s.btn, ...(loading ? s.btnDisabled : {}) }} disabled={loading}>
-                        {loading ? '⏳ Creating account...' : '🚀 Create Account'}
+
+                    <button className="e1-btn e1-btn--primary" disabled={loading}>
+                        {loading
+                            ? <><span className="e1-spinner" /> Creating account...</>
+                            : '🚀 Create Account'
+                        }
                     </button>
                 </form>
 
-                <div style={s.footer}>
-                    Already have an account? <a href="/login" style={s.link}>Sign in</a>
+                <div className="e1-footer">
+                    Already have an account? <Link to="/login">Sign in</Link>
                 </div>
             </div>
         </div>

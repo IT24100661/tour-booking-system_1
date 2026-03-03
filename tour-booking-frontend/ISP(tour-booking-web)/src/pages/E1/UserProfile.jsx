@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { apiDeleteUser, apiGetUser, apiUpdateUser } from '../../api/e1.js'
+import './E1.css'
 
-const s = {
-    page: { minHeight: '100vh', background: '#f0f4f8', padding: '32px 24px' },
-    wrap: { maxWidth: '600px', margin: '0 auto' },
-    title: { fontSize: '26px', fontWeight: '800', color: '#1e3a5f', marginBottom: '24px' },
-    card: { background: '#fff', borderRadius: '16px', padding: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', marginBottom: '20px' },
-    sectionTitle: { fontSize: '16px', fontWeight: '700', color: '#1e3a5f', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' },
-    field: { marginBottom: '16px' },
-    label: { display: 'block', fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '6px' },
-    input: { width: '100%', padding: '12px 16px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '15px', outline: 'none', boxSizing: 'border-box', background: '#f8fafc', color: '#0f172a' },
-    row: { display: 'flex', gap: '12px', marginTop: '8px' },
-    btn: { padding: '12px 24px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: 'pointer' },
-    btnDanger: { padding: '12px 24px', background: 'linear-gradient(135deg, #ef4444, #dc2626)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: 'pointer' },
-    error: { background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '12px 16px', borderRadius: '10px', fontSize: '14px', marginBottom: '16px' },
-    ok: { background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#16a34a', padding: '12px 16px', borderRadius: '10px', fontSize: '14px', marginBottom: '16px' },
-    infoGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
-    infoItem: { background: '#f8fafc', borderRadius: '10px', padding: '12px 16px' },
-    infoLabel: { fontSize: '12px', color: '#64748b', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' },
-    infoValue: { fontSize: '15px', color: '#1e3a5f', fontWeight: '700', marginTop: '4px' },
-    badge: { display: 'inline-block', background: '#eff6ff', color: '#2563eb', padding: '2px 10px', borderRadius: '20px', fontSize: '13px', fontWeight: '700' },
+const ROLE_META = {
+    ADMIN:       { badge: 'e1-badge--red',    icon: '🛡️' },
+    GUIDE:       { badge: 'e1-badge--blue',   icon: '🗺️' },
+    HOTEL_OWNER: { badge: 'e1-badge--yellow', icon: '🏨' },
+    TOURIST:     { badge: 'e1-badge--green',  icon: '🧳' },
 }
 
 export default function UserProfile() {
@@ -49,7 +36,7 @@ export default function UserProfile() {
         try {
             const updated = await apiUpdateUser(id, patch, 'patch')
             setUser(updated)
-            setMsg('Updated')
+            setMsg('Profile updated successfully.')
         } catch (e2) {
             setErr(e2?.response?.data?.message || 'Update failed')
         }
@@ -67,63 +54,84 @@ export default function UserProfile() {
         }
     }
 
+    const meta = ROLE_META[user?.role] || { badge: 'e1-badge--blue', icon: '👤' }
+    const initials = user?.name
+        ? user.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+        : '?'
+
     return (
-        <div style={s.page}>
-            <div style={s.wrap}>
-                <div style={s.title}>👤 User Profile</div>
+        <div className="e1-page">
+            <div className="e1-card e1-card--wide">
+                <div className="e1-card__icon">👤</div>
+                <h1 className="e1-card__title">User Profile</h1>
+                <p className="e1-card__subtitle">ID: #{id}</p>
 
-                {err && <div style={s.error}>⚠️ {err}</div>}
-                {msg && <div style={s.ok}>✅ {msg}</div>}
+                {err && <div className="e1-alert e1-alert--error"><span>⚠️</span> {err}</div>}
+                {msg && <div className="e1-alert e1-alert--success"><span>✓</span> {msg}</div>}
 
+                {/* Profile card */}
                 {user && (
-                    <div style={s.card}>
-                        <div style={s.sectionTitle}>📋 Account Info</div>
-                        <div style={s.infoGrid}>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>Name</div>
-                                <div style={s.infoValue}>{user.name || '—'}</div>
-                            </div>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>Email</div>
-                                <div style={s.infoValue}>{user.email || '—'}</div>
-                            </div>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>Role</div>
-                                <div style={s.infoValue}><span style={s.badge}>{user.role || '—'}</span></div>
-                            </div>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>Phone</div>
-                                <div style={s.infoValue}>{user.phone || '—'}</div>
-                            </div>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>Email Verified</div>
-                                <div style={s.infoValue}>{user.emailVerified ? '✅ Yes' : '❌ No'}</div>
-                            </div>
-                            <div style={s.infoItem}>
-                                <div style={s.infoLabel}>User ID</div>
-                                <div style={s.infoValue}>#{user.id}</div>
+                    <>
+                        <div className="e1-user-hero">
+                            <div className="e1-user-avatar">{initials}</div>
+                            <div>
+                                <p className="e1-user-hero__name">{user.name}</p>
+                                <p className="e1-user-hero__email">{user.email}</p>
+                                <span className={`e1-badge ${meta.badge}`}>
+                                    {meta.icon} {user.role}
+                                </span>
                             </div>
                         </div>
-                    </div>
+
+                        <div className="e1-section-label">Details</div>
+                        <div className="e1-info-row">
+                            <span className="e1-info-row__key">Phone</span>
+                            <span className="e1-info-row__value">{user.phone || '—'}</span>
+                        </div>
+                        <div className="e1-info-row">
+                            <span className="e1-info-row__key">Email Verified</span>
+                            <span className="e1-info-row__value">
+                                {user.emailVerified
+                                    ? <span className="e1-badge e1-badge--green">✓ Verified</span>
+                                    : <span className="e1-badge e1-badge--red">✗ Not verified</span>}
+                            </span>
+                        </div>
+                    </>
                 )}
 
-                <div style={s.card}>
-                    <div style={s.sectionTitle}>✏️ Update Profile</div>
-                    <form onSubmit={update}>
-                        <div style={s.field}>
-                            <label style={s.label}>Name</label>
-                            <input style={s.input} value={patch.name} onChange={(e) => setPatch(p => ({ ...p, name: e.target.value }))} placeholder="Full name" />
-                        </div>
-                        <div style={s.field}>
-                            <label style={s.label}>Phone</label>
-                            <input style={s.input} value={patch.phone} onChange={(e) => setPatch(p => ({ ...p, phone: e.target.value }))} placeholder="+94 77 123 4567" />
-                        </div>
-                        <div style={s.row}>
-                            <button style={s.btn}>💾 Save Changes</button>
-                            <button type="button" style={s.btnDanger} onClick={del}>🗑️ Delete User</button>
-                        </div>
-                    </form>
-                </div>
+                <div className="e1-divider" />
+
+                {/* Update form */}
+                <div className="e1-section-label">Edit Profile</div>
+                <form onSubmit={update}>
+                    <div className="e1-field">
+                        <label className="e1-label">Name</label>
+                        <input
+                            className="e1-input"
+                            placeholder="Full name"
+                            value={patch.name}
+                            onChange={(e) => setPatch(p => ({ ...p, name: e.target.value }))}
+                        />
+                    </div>
+                    <div className="e1-field">
+                        <label className="e1-label">Phone</label>
+                        <input
+                            className="e1-input"
+                            placeholder="+1 234 567 8900"
+                            value={patch.phone}
+                            onChange={(e) => setPatch(p => ({ ...p, phone: e.target.value }))}
+                        />
+                    </div>
+
+                    <div className="e1-btn-row">
+                        <button type="submit" className="e1-btn e1-btn--primary" style={{ flex: 2, marginTop: 0 }}>
+                            💾 Save Changes
+                        </button>
+                        <button type="button" className="e1-btn e1-btn--danger" style={{ flex: 1 }} onClick={del}>
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     )
